@@ -1,3 +1,7 @@
+"""
+日期输出
+"""
+
 inputYear = int(input("year:"))
 inputMonth = int(input("month:"))
 inputDay = int(input("day:"))

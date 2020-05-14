@@ -1,3 +1,6 @@
+"""
+判断回文数
+"""
 n = input('n: ')
 if int(n) < 10:
     print(True)
