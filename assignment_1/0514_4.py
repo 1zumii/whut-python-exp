@@ -2,7 +2,11 @@
 输出进度条
 """
 import time
-for progress in range(0, 26):
-    strProgress = '#' * progress + '-' * (25 - progress)
-    print('\r{}%\t[{}]'.format(progress * 4, strProgress), end='')
-    time.sleep(0.1)
+
+totalUnit = 43
+intervalTime = 0.07
+
+for progress in range(0, totalUnit + 1):
+    strProgress = '#' * progress + '-' * (totalUnit - progress)
+    print('\r{:.1f}%\t[{}]\t{:.2f}s'.format(progress * 100 / totalUnit, strProgress, progress * intervalTime), end='')
+    time.sleep(intervalTime)
