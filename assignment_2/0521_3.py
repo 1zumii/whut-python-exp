@@ -16,8 +16,8 @@ while not isCorrect:
     countGuess += 1
     if temp is targetNum:
         isCorrect = True
-        print('中了')
+        print('猜了{}次，终于中了！'.format(countGuess))
     elif temp > targetNum:
-        print('大了')
+        print('大了！')
     else:
-        print('小了')
+        print('小了！')
