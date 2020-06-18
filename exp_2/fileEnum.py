@@ -1,0 +1,5 @@
+dbFileName = 'people-file'
+END_KEY = 'endkey.'
+END_DB = 'enddb.'
+END_REC = 'endrec.'
+REC_SEP = '=>'
