@@ -5,7 +5,7 @@ A = 'A'
 B = 'B'
 C = 'C'
 
-managers = {
+salesmen = {
 	'Jason': JUNIOR, 'Alex': JUNIOR, 'Daniel': JUNIOR, 'Mike': JUNIOR,
 	'Jessica': SENIOR, 'Ted': SENIOR, 'Denny': JUNIOR, 'Fiona': JUNIOR,
 	'Eric': JUNIOR, 'Max': SENIOR, 'William': SENIOR, 'Zoe': JUNIOR,
