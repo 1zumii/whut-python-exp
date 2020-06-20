@@ -5,7 +5,8 @@
 """
 
 
-# 递推 https://leetcode-cn.com/problems/climbing-stairs/
+# 递推
+# https://leetcode-cn.com/problems/climbing-stairs/
 def climbStairs1(stairs, maxStep):
 	dp = [-1]  # dp[i] = i级台阶有多少种方法
 	for i in range(1, stairs + 1):

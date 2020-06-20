@@ -63,10 +63,11 @@ def Nimes(n, isFirst):
 			break
 
 
-firstPlay = input("先手？(y/n) ")
-if firstPlay in ['Y', 'y']:
-	Nimes(random.randrange(1, 999), True)
-elif firstPlay in ['N', 'n']:
-	Nimes(random.randrange(1, 999), False)
-else:
-	print('Error: invalid input')
+if __name__ == '__main__':
+	firstPlay = input("先手？(y/n) ")
+	if firstPlay in ['Y', 'y']:
+		Nimes(random.randrange(1, 999), True)
+	elif firstPlay in ['N', 'n']:
+		Nimes(random.randrange(1, 999), False)
+	else:
+		print('Error: invalid input')

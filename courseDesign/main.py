@@ -42,10 +42,14 @@ def main():
 				x = range(1, 12 + 1)
 				for districtIndex in range(0, len(districtList)):
 					# 画每个子图种不同区数据的折线
-					plt.plot(
+					plt.plot(	# 折线图
 						x, dataArr[districtIndex, plotIndex - 1],
 						color=config.plotColors[districtIndex],
 						label=config.districtNameDict[districtList[districtIndex]]
+					)
+					plt.plot(	# 散点图
+						x, dataArr[districtIndex, plotIndex - 1], 'ob',
+						color=config.plotColors[districtIndex]
 					)
 					# y轴取值范围
 					plt.ylim(0, 200)
