@@ -29,7 +29,36 @@ def main():
 					len(range(year[0], year[-1] + 1)),  # row
 					12  # column
 				))
-			print(np.array(data))
+			# dataArr.shape = (4个区,6年,12个月)
+			# [
+			# 	[2010,2011,2012,2013,2014,2015],
+			# 	... ...
+			# 	[2010,2011,2012,2013,2014,2015],
+			# ]
+			dataArr = np.array(data)
+			# 绘制条形图，按年份
+			for plotIndex in range(1, (year[-1] - year[0] + 1) + 1):  # 年份
+				plt.subplot(2, 3, plotIndex)
+				x = range(1, 12 + 1)
+				for districtIndex in range(0, len(districtList)):
+					# 画每个子图种不同区数据的折线
+					plt.plot(
+						x, dataArr[districtIndex, plotIndex - 1],
+						color=config.plotColors[districtIndex],
+						label=config.districtNameDict[districtList[districtIndex]]
+					)
+					# y轴取值范围
+					plt.ylim(0, 200)
+					plt.ylabel("PM 2.5")
+					# 设置x轴刻度显示值
+					# 参数一：中点坐标; 参数二：显示值
+					plt.xticks(x, x)
+					plt.xlabel('月份')
+					# 设置标题
+					plt.title(plotIndex + year[0] - 1)
+					# 设置题注
+					plt.legend()
+			plt.show()
 
 
 if __name__ == '__main__':
