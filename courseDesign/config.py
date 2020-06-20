@@ -44,3 +44,8 @@ dataConfigDict = {
 		'Taiyuanjie', 'US Post', 'Xiaoheyan'
 	])
 }
+
+plotColors = [
+	'deeppink', 'orange', 'yellow', 'springgreen',
+	'deepskyblue', 'blue', 'blueviolet', 'magenta',
+]
