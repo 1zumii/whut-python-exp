@@ -1,18 +1,12 @@
 import numpy as np
-import csv
+import pandas as pd
 import config
 
 
 def main():
-	csvFile = open('./data/' + config.BeiJingFile, 'r')
-	csvReader = csv.reader(csvFile)
-	for line in csvReader:
-		if csvReader.line_num is 1:
-			print(line)
-		elif csvReader.line_num is 2:
-			print(line)
-		else:
-			break
+	for cityName, cityData in config.dataConfigDict.items():
+		csvReader = pd.read_csv('./data/' + cityData[0])
+		print(cityName, len(csvReader.No))
 
 
 if __name__ == '__main__':
