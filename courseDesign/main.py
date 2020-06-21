@@ -201,7 +201,7 @@ def airQualityBySeason(cityName, districtList, reader):
 		plt.xlabel('季度')
 		# 设置标题
 		plt.title(config.districtNameDict[districtList[districtIndex]])
-	
+
 	plt.suptitle(config.cityNameDict[cityName])  # 画完子图，写大标题
 	plt.savefig('./output/AirQuality4season_{}_byDistrict.png'.format(cityName))
 
