@@ -37,17 +37,18 @@ def main():
 			# ]
 			dataArr = np.array(data)
 			# 绘制条形图，按年份
+			plt.figure(figsize=(8, 5))  # 设置画布大小 // 16:10 分辨率默认100 => 1600×1000 ?
 			for plotIndex in range(1, (year[-1] - year[0] + 1) + 1):  # 年份
 				plt.subplot(2, 3, plotIndex)
 				x = range(1, 12 + 1)
 				for districtIndex in range(0, len(districtList)):
 					# 画每个子图种不同区数据的折线
-					plt.plot(	# 折线图
+					plt.plot(  # 折线图
 						x, dataArr[districtIndex, plotIndex - 1],
 						color=config.plotColors[districtIndex],
 						label=config.districtNameDict[districtList[districtIndex]]
 					)
-					plt.plot(	# 散点图
+					plt.plot(  # 散点图
 						x, dataArr[districtIndex, plotIndex - 1], 'ob',
 						color=config.plotColors[districtIndex]
 					)
@@ -62,7 +63,7 @@ def main():
 					plt.title(plotIndex + year[0] - 1)
 					# 设置题注
 					plt.legend()
-			plt.show()
+			plt.savefig('./output/{}.png'.format(cityName))
 
 
 if __name__ == '__main__':
