@@ -146,7 +146,7 @@ def airQualityBySeason(cityName, districtList, reader):
 		currentDistrictData = np.array(reader['PM_' + district])
 		for seasonIndex in range(0, len(config.seasonMap)):
 			# 所有数据中，同一个区，同一个季度时的数据
-			seasonArr = currentDistrictData[season == seasonIndex+1]
+			seasonArr = currentDistrictData[season == seasonIndex + 1]
 			# 筛选出非np.nan的数据，对np.isnan()取反
 			# 此时validData中的长度和索引就和源数据不相同了
 			validData = seasonArr[~np.isnan(seasonArr)]
@@ -170,25 +170,25 @@ def airQualityBySeason(cityName, districtList, reader):
 			percentMedium = dataArr[districtIndex, seasonIndex][2] / sumCount
 			percentSevere = dataArr[districtIndex, seasonIndex][3] / sumCount
 			plt.bar(
-				seasonIndex+1, percentGood,
+				seasonIndex + 1, percentGood,
 				width=0.4, label='优良空气',
 				color=config.plotGradientColors[0],
 				bottom=0
 			)
 			plt.bar(
-				seasonIndex+1, percentMild,
+				seasonIndex + 1, percentMild,
 				width=0.4, label='轻度污染',
 				color=config.plotGradientColors[1],
 				bottom=percentGood
 			)
 			plt.bar(
-				seasonIndex+1, percentMedium,
+				seasonIndex + 1, percentMedium,
 				width=0.4, label='中度污染',
 				color=config.plotGradientColors[2],
 				bottom=percentGood + percentMild
 			)
 			plt.bar(
-				seasonIndex+1, percentSevere,
+				seasonIndex + 1, percentSevere,
 				width=0.4, label='重度污染',
 				color=config.plotGradientColors[3],
 				bottom=percentGood + percentMild + percentMedium
@@ -197,7 +197,7 @@ def airQualityBySeason(cityName, districtList, reader):
 		plt.ylim(0, 1.0)
 		# 设置x轴刻度显示值
 		# 参数一：中点坐标; 参数二：显示值
-		plt.xticks(range(1, len(config.seasonName)+1), config.seasonName)
+		plt.xticks(range(1, len(config.seasonName) + 1), config.seasonName)
 		plt.xlabel('季度')
 		# 设置标题
 		plt.title(config.districtNameDict[districtList[districtIndex]])
