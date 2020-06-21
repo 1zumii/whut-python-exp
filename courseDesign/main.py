@@ -65,13 +65,84 @@ def pollutingCondition(cityName, districtList, reader):
 	plt.savefig('./output/PollutingCondition_{}_6year.png'.format(cityName))
 
 
+# 按月度/季度画每个城市中各个区的百分比柱状图
+def airQuality(cityName, districtList, reader):
+	# 获取每个区的整列数据
+	month = np.array(reader.month)
+	data = []
+	for district in districtList:
+		districtSum = []
+		currentDistrictData = np.array(reader['PM_' + district])
+		for monthIndex in range(1, 13):
+			# 所有数据中，同一个区，同一个月时的数据
+			monthArr = currentDistrictData[month == monthIndex]
+			# 筛选出非np.nan的数据，对np.isnan()取反
+			# 此时validData中的长度和索引就和源数据不相同了
+			validData = monthArr[~np.isnan(monthArr)]
+			districtSum.append([  # 单月数据
+				len(validData[validData <= 35]),  # 优良
+				len(validData[(validData > 35) & (validData <= 75)]),  # 轻度
+				len(validData[(validData > 75) & (validData <= 150)]),  # 中度
+				len(validData[validData > 150])  # 重度
+			])
+		data.append(districtSum)  # append单个区，按月份分的数据
+	dataArr = np.array(data)
+	# 月度
+	plt.figure(figsize=(16, 10))
+	for districtIndex in range(0, len(districtList)):
+		plt.subplot(2, 2, districtIndex + 1)
+		for monthIndex in range(1, 13):
+			# 子图中的单列
+			sumCount = dataArr[districtIndex, monthIndex - 1].sum()
+			percentGood = dataArr[districtIndex, monthIndex - 1][0] / sumCount
+			percentMild = dataArr[districtIndex, monthIndex - 1][1] / sumCount
+			percentMedium = dataArr[districtIndex, monthIndex - 1][2] / sumCount
+			percentSevere = dataArr[districtIndex, monthIndex - 1][3] / sumCount
+			plt.bar(
+				monthIndex, percentGood,
+				width=0.4, label='优良空气',
+				color=config.plotGradientColors[0],
+				bottom=0
+			)
+			plt.bar(
+				monthIndex, percentMild,
+				width=0.4, label='轻度污染',
+				color=config.plotGradientColors[1],
+				bottom=percentGood
+			)
+			plt.bar(
+				monthIndex, percentMedium,
+				width=0.4, label='中度污染',
+				color=config.plotGradientColors[2],
+				bottom=percentGood + percentMild
+			)
+			plt.bar(
+				monthIndex, percentSevere,
+				width=0.4, label='重度污染',
+				color=config.plotGradientColors[3],
+				bottom=percentGood + percentMild + percentMedium
+			)
+		# y轴取值范围
+		plt.ylim(0, 1.0)
+		# 设置x轴刻度显示值
+		# 参数一：中点坐标; 参数二：显示值
+		plt.xticks(range(1, 13), range(1, 13))
+		plt.xlabel('月份')
+		# 设置标题
+		plt.title(config.districtNameDict[districtList[districtIndex]])
+		# 设置题注
+		# plt.legend()
+	plt.suptitle(config.cityNameDict[cityName])  # 画完子图，写大标题
+	plt.savefig('./output/AirQuality12month_{}_byDistrict.png'.format(cityName))
+
+
 def main():
 	for cityName, (fileName, districtList) in config.dataConfigDict.items():
 		csvReader = pd.read_csv('./data/' + fileName)
-		# 五个城市六年的污染情况
+		# 五城市污染状态
 		pollutingCondition(cityName, districtList, csvReader)
-		# 绘制百分比柱状图，按每个城市的每个区
-		plt.figure(figsize=(16, 10))
+		# 五城市每个区空气质量的月度/季度差异
+		airQuality(cityName, districtList, csvReader)
 
 
 if __name__ == '__main__':

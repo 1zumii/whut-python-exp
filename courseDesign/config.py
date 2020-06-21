@@ -50,6 +50,16 @@ plotContrastColors = [
 	'orange', 'blue', 'magenta', 'springgreen'
 ]
 plotGradientColors = [
-	'deeppink', 'orange', 'yellow', 'springgreen',
-	'deepskyblue', 'blue', 'blueviolet', 'magenta',
+	'deepskyblue', 'springgreen', 'yellow', 'deeppink'
+]
+
+seasonName = [
+	'春', '夏', '秋', '冬'
+]
+
+seasonMap = [
+	[3, 4, 5],  # 第一季度
+	[6, 7, 8],  # 第二季度
+	[9, 10, 11],  # 第三季度
+	[12, 1, 2]  # 第四季度
 ]
