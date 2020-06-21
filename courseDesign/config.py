@@ -45,7 +45,11 @@ dataConfigDict = {
 	])
 }
 
-plotColors = [
+plotContrastColors = [
+	'deeppink', 'deepskyblue', 'yellow', 'blueviolet',
+	'orange', 'blue', 'magenta', 'springgreen'
+]
+plotGradientColors = [
 	'deeppink', 'orange', 'yellow', 'springgreen',
 	'deepskyblue', 'blue', 'blueviolet', 'magenta',
 ]
