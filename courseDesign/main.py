@@ -65,8 +65,8 @@ def pollutingCondition(cityName, districtList, reader):
 	plt.savefig('./output/PollutingCondition_{}_6year.png'.format(cityName))
 
 
-# 按月度/季度画每个城市中各个区的百分比柱状图
-def airQuality(cityName, districtList, reader):
+# 按月度画每个城市中各个区的百分比柱状图
+def airQualityByMonth(cityName, districtList, reader):
 	# 获取每个区的整列数据
 	month = np.array(reader.month)
 	data = []
@@ -130,10 +130,80 @@ def airQuality(cityName, districtList, reader):
 		plt.xlabel('月份')
 		# 设置标题
 		plt.title(config.districtNameDict[districtList[districtIndex]])
-		# 设置题注
-		# plt.legend()
+	# 设置题注
+	# plt.legend()
 	plt.suptitle(config.cityNameDict[cityName])  # 画完子图，写大标题
 	plt.savefig('./output/AirQuality12month_{}_byDistrict.png'.format(cityName))
+
+
+# 按季度画每个城市中各个区的百分比柱状图
+def airQualityBySeason(cityName, districtList, reader):
+	# 获取每个区的整列数据
+	season = np.array(reader.season)
+	data = []
+	for district in districtList:
+		districtSum = []
+		currentDistrictData = np.array(reader['PM_' + district])
+		for seasonIndex in range(0, len(config.seasonMap)):
+			# 所有数据中，同一个区，同一个季度时的数据
+			seasonArr = currentDistrictData[season == seasonIndex+1]
+			# 筛选出非np.nan的数据，对np.isnan()取反
+			# 此时validData中的长度和索引就和源数据不相同了
+			validData = seasonArr[~np.isnan(seasonArr)]
+			districtSum.append([  # 单季度数据
+				len(validData[validData <= 35]),  # 优良
+				len(validData[(validData > 35) & (validData <= 75)]),  # 轻度
+				len(validData[(validData > 75) & (validData <= 150)]),  # 中度
+				len(validData[validData > 150])  # 重度
+			])
+		data.append(districtSum)  # append单个区，按季度分的数据
+	dataArr = np.array(data)
+	# 季度
+	plt.figure(figsize=(16, 10))
+	for districtIndex in range(0, len(districtList)):
+		plt.subplot(2, 2, districtIndex + 1)
+		for seasonIndex in range(0, len(config.seasonName)):
+			# 子图中的单列
+			sumCount = dataArr[districtIndex, seasonIndex].sum()
+			percentGood = dataArr[districtIndex, seasonIndex][0] / sumCount
+			percentMild = dataArr[districtIndex, seasonIndex][1] / sumCount
+			percentMedium = dataArr[districtIndex, seasonIndex][2] / sumCount
+			percentSevere = dataArr[districtIndex, seasonIndex][3] / sumCount
+			plt.bar(
+				seasonIndex+1, percentGood,
+				width=0.4, label='优良空气',
+				color=config.plotGradientColors[0],
+				bottom=0
+			)
+			plt.bar(
+				seasonIndex+1, percentMild,
+				width=0.4, label='轻度污染',
+				color=config.plotGradientColors[1],
+				bottom=percentGood
+			)
+			plt.bar(
+				seasonIndex+1, percentMedium,
+				width=0.4, label='中度污染',
+				color=config.plotGradientColors[2],
+				bottom=percentGood + percentMild
+			)
+			plt.bar(
+				seasonIndex+1, percentSevere,
+				width=0.4, label='重度污染',
+				color=config.plotGradientColors[3],
+				bottom=percentGood + percentMild + percentMedium
+			)
+		# y轴取值范围
+		plt.ylim(0, 1.0)
+		# 设置x轴刻度显示值
+		# 参数一：中点坐标; 参数二：显示值
+		plt.xticks(range(1, len(config.seasonName)+1), config.seasonName)
+		plt.xlabel('季度')
+		# 设置标题
+		plt.title(config.districtNameDict[districtList[districtIndex]])
+	
+	plt.suptitle(config.cityNameDict[cityName])  # 画完子图，写大标题
+	plt.savefig('./output/AirQuality4season_{}_byDistrict.png'.format(cityName))
 
 
 def main():
@@ -141,8 +211,10 @@ def main():
 		csvReader = pd.read_csv('./data/' + fileName)
 		# 五城市污染状态
 		pollutingCondition(cityName, districtList, csvReader)
-		# 五城市每个区空气质量的月度/季度差异
-		airQuality(cityName, districtList, csvReader)
+		# 五城市每个区空气质量的月度差异
+		airQualityByMonth(cityName, districtList, csvReader)
+		# 五城市每个区空气质量的季度差异
+		airQualityBySeason(cityName, districtList, csvReader)
 
 
 if __name__ == '__main__':

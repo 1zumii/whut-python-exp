@@ -32,7 +32,7 @@ dataConfigDict = {
 		'Dongsi', 'Dongsihuan', 'Nongzhanguan', 'US Post'
 	]),
 	'chengdu': (ChengDuFile, [
-		'Caotangsi', 'Caotangsi', 'Shahepu', 'US Post'
+		'Caotangsi', 'Shahepu', 'US Post'
 	]),
 	'guangzhou': (GuangZhouFile, [
 		'City Station', '5th Middle School', 'US Post'
